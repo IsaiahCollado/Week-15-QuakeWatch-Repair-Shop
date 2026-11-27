@@ -1,0 +1,3 @@
+Member 1 - Uno Kabiling: Fixed Defect 1 in quakewatch.py (updatedfeatures_stage()
+to index t["depth_km"] instead of t["depth"]), wrote test_depth_class_thresholds_member1
+in tests/test_group.py using @pytest.mark.parametrize, and documented Defect 1 in REPAIR_LOG.md.
