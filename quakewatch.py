@@ -103,7 +103,13 @@ def save_raw(table):
 
 def load_new(until=LAST_DAY):
     """Fetch only what is not saved yet. Returns the number of new rows."""
-    fetched = fetch_range(FIRST_DAY, until)
+    wm = watermark()
+    start = wm.isoformat() if wm is not None else FIRST_DAY
+    fetched = fetch_range(start, until)
+    if RAW.exists() and any(RAW.rglob("*.parquet")) and len(fetched):
+        existing_ids = set(read_raw()["id"])
+        fetched = fetched[~fetched["id"].isin(existing_ids)]
+    fetched = fetched.drop_duplicates(subset=["id"])
     if len(fetched):
         save_raw(fetched)
     log.info("acquire: %d new rows", len(fetched))
@@ -120,14 +126,37 @@ CONTRACT = pa.DataFrameSchema({
     "place": pa.Column(str),
 })
 
-
 def split_by_contract(raw):
     """Return (good rows, rejected rows)."""
-    try:
-        CONTRACT.validate(raw)
-    except Exception:
-        pass
-    return raw, raw.iloc[0:0]
+    if raw.empty:
+        return raw.copy(), raw.iloc[0:0].copy()
+
+    valid = pd.Series(True, index=raw.index)
+
+    if "id" in raw.columns:
+        valid &= raw["id"].notna() & (raw["id"].astype(str).str.len() > 0) & (~raw["id"].duplicated(keep="first"))
+    if "mag" in raw.columns:
+        mag = pd.to_numeric(raw["mag"], errors="coerce")
+        valid &= mag.notna() & mag.between(5, 10, inclusive="both")
+    if "depth_km" in raw.columns:
+        depth = pd.to_numeric(raw["depth_km"], errors="coerce")
+        valid &= depth.notna() & depth.between(0, 700, inclusive="both")
+    if "latitude" in raw.columns:
+        lat = pd.to_numeric(raw["latitude"], errors="coerce")
+        valid &= lat.notna() & lat.between(4, 22, inclusive="both")
+    if "longitude" in raw.columns:
+        lon = pd.to_numeric(raw["longitude"], errors="coerce")
+        valid &= lon.notna() & lon.between(116, 130, inclusive="both")
+    if "place" in raw.columns:
+        valid &= raw["place"].notna() & (raw["place"].astype(str).str.len() > 0)
+
+    good = raw[valid].copy()
+    rejects = raw[~valid].copy()
+
+    if len(rejects) > 0:
+        log.warning("Rejected %d row(s) failing data contract", len(rejects))
+
+    return good, rejects
 
 
 def haversine_km(lat1, lon1, lat2, lon2):

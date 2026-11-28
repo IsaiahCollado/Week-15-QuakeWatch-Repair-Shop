@@ -1,0 +1,11 @@
+Group 4
+Member: John Christian Ballesteros (Member 5)
+
+My Contributions:
+- Fixed Defect 5 in quakewatch.py (load_new deduplication so repeated runs do not re-save existing IDs).
+- Fixed Defect 6 in quakewatch.py (split_by_contract rejection of invalid rows like negative depth and WARNING log output).
+- Added tests for my fixes in tests/test_group.py and logged my repairs in REPAIR_LOG.md.
+
+Help / Tools Used:
+- AI coding assistant: Used to debug Defects 5 and 6, draft test cases in tests/test_group.py, and structure REPAIR_LOG.md entries.
+- Checked ourselves: Ran pytest to confirm tests pass with the fixes and reviewed quakewatch.py and tests/test_group.py directly.
