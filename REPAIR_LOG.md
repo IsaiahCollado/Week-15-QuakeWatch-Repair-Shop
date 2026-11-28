@@ -3,9 +3,13 @@
 Study group: 4   
 Members: 
 Member 1 - Uno Kabiling
+
 Member 2 - Isaiah Collado
+
 Member 3 - Gab Roman
+
 Member 4 - Jeremiah Padilla
+
 Member 5 - John Ballesteros
 
 ## Defects
