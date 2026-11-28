@@ -41,8 +41,7 @@ Member 5 - John Ballesteros
 | Where (function) | Level | Message | Why this level |
 | --- | --- | --- | --- |
 | split_by_contract | WARNING | Rejected %d row(s) failing data contract | Bad rows are skipped without crashing the pipeline, so a warning flags unexpected/invalid input worth inspecting. |
-| | | | |
-| | | | |
+| `run.py` logging setup | INFO | Writes pipeline stage messages to `logs/run.log` and the console. | INFO reports routine pipeline progress and results; rejected rows are logged separately at WARNING. |
 
 ## One thing we learned about debugging
 
