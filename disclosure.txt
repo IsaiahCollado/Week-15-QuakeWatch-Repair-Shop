@@ -1,11 +1,32 @@
 Group 4
-Member: John Christian Ballesteros (Member 5)
 
-My Contributions:
-- Fixed Defect 5 in quakewatch.py (load_new deduplication so repeated runs do not re-save existing IDs).
-- Fixed Defect 6 in quakewatch.py (split_by_contract rejection of invalid rows like negative depth and WARNING log output).
-- Added tests for my fixes in tests/test_group.py and logged my repairs in REPAIR_LOG.md.
+Member 1 - Uno Kabiling
+Contributions:
+- Fixed Incident 1 by using the existing depth_km column in features_stage().
+- Added test_depth_class_thresholds_member1 in tests/test_group.py.
 
-Help / Tools Used:
-- AI coding assistant: Used to debug Defects 5 and 6, draft test cases in tests/test_group.py, and structure REPAIR_LOG.md entries.
-- Checked ourselves: Ran pytest to confirm tests pass with the fixes and reviewed quakewatch.py and tests/test_group.py directly.
+Member 2 - Isaiah Collado
+Contributions:
+- Fixed Incident 2 by converting event timestamps to Asia/Manila with tz_convert().
+- Added test_manila_timezone_conversion_member2 in tests/test_group.py.
+
+Member 3 - Carlos Gabriel D. Roman
+Contributions:
+- Fixed Incident 3 by changing the magnitude bin boundary so magnitude 6.0 is classified as Strong.
+- Added the parameterized test_strong_or_above_flag in tests/test_group.py.
+
+Member 4 - Jeremiah Padilla
+Contributions:
+- Fixed Incident 4 by passing event latitude and longitude to the distance calculation in the correct order.
+- Added test_mindanao_nearest_city_uses_latitude_longitude_order in tests/test_group.py.
+
+Member 5 - John Christian Ballesteros
+Contributions:
+- Fixed Incident 5 by preventing load_new() from saving already-known earthquake IDs again.
+- Fixed Incident 6 by separating invalid rows into rejects and logging a WARNING.
+- Added tests for repeated loads, invalid depth rejection, and depth boundaries in tests/test_group.py.
+
+Help and tools used:
+- An AI was used to double check every file.
+- Member 5 used an AI coding assistant to debug Incidents 5 and 6 and draft tests and repair-log entries.
+- Python and pytest were used to validate the merged code. The full test suite passed: 36 passed.
