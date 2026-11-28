@@ -12,7 +12,7 @@ def test_depth_class_thresholds_member1():
 
     assert list(result) == expected
 
-
+#start of member2 test
 def test_manila_timezone_conversion_member2(loaded):
     qw.integrate()
     feat = qw.features_stage()
